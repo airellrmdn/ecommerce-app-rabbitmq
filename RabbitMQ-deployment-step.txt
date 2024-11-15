@@ -1,0 +1,9 @@
+1. Install Helm
+   $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 
+   $ chmod 700 get_helm.sh
+   $ ./get_helm.sh
+
+2. Install RabbitMQ for Kubernetes Using Helm
+   $ helm repo add bitnami https://charts.bitnami.com/bitnami
+   $ helm repo update
+   $ helm install my-rabbitmq bitnami/rabbitmq --version 13.0.0 
