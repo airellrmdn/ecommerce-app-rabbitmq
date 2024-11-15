@@ -1,0 +1,30 @@
+# Manifest file for order-service pods deployment
+apiVersion: apps/v1
+kind: Deployment
+# identifier for this deployment
+metadata:
+  name: order
+  labels:
+    app: microservices
+    service: order
+# specified replicas and pod templates
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: order
+  template:
+    metadata:
+      labels:
+        app: microservices
+        service: order
+    # specified the container configuration (image, ports, env)
+    spec:
+      containers:
+      - name: order-service
+        image: ghcr.io/airellrmdn/order-service:latest
+        ports:
+          - containerPort: 3000
+        env:
+          - name: AMQP_URL
+            value: amqp://user:sEseyNAoHLHQ9aDg@10.104.240.150:5672 

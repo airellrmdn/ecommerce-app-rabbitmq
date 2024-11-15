@@ -1,0 +1,39 @@
+# Manifest file for istio gateway and virtualservice
+
+# Gateway Declaration
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: order-gateway
+# specified the gateway configuration (selector and servers)
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+# Virtual Service Declaration
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: order-service
+# specified the virtual service configuration (hosts, gateway, http match uri, and route destination host)
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - order-gateway
+  http:
+  - match:
+    - uri:
+        exact: /order
+    route:
+    - destination:
+        host: order
+        port:
+          number: 3000

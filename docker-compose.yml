@@ -1,0 +1,50 @@
+version: "3.2"
+services:
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: 'rabbitmq_container'
+    ports:
+      - 5672:5672
+      - 15673:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/
+      - rabbitmq_log:/var/log/rabbitmq
+    networks:
+      - rabbitmq_network
+    restart: always
+  order:
+    image: ghcr.io/airellrmdn/order-service:latest
+    container_name: 'orderService_container'
+    ports:
+      - 8080:3000
+    # volumes:
+    #   - .:/app
+    depends_on:
+      - rabbitmq
+    environment:
+      AMQP_URL: amqp://guest:guest@rabbitmq:5672
+    command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- npm run start'
+    networks:
+      - rabbitmq_network
+    restart: always
+  shipping:
+    image: ghcr.io/airellrmdn/shipping-service:latest
+    container_name: 'shipService_container'
+    ports:
+      - 8081:3001
+    # volumes:
+    #   - .:/app
+    depends_on:
+      - rabbitmq
+    command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- npm run start'
+    environment:
+      AMQP_URL: amqp://guest:guest@rabbitmq:5672
+    networks:
+      - rabbitmq_network
+    restart: always
+networks:
+  rabbitmq_network:
+    driver: bridge
+volumes:
+    rabbitmq_data:
+    rabbitmq_log:

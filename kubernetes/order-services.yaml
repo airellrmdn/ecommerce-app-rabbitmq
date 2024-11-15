@@ -1,0 +1,16 @@
+# Manifest file for order services
+apiVersion: v1
+kind: Service
+# identifier for this service
+metadata:
+  name: order
+  labels:
+    app: microservices
+# specified the service configuration (service type, ports, selector, etc)
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+    nodePort: 30007
+  selector:
+    service: order

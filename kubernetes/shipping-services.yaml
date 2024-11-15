@@ -1,0 +1,16 @@
+# Manifest file for shipping services
+apiVersion: v1
+kind: Service
+# identifier for this service
+metadata:
+  name: shipping
+  labels:
+    app: microservices
+# specified the service configuration (service type, ports, selector, etc)
+spec:
+  type: NodePort
+  ports:
+  - port: 3001
+    nodePort: 30008
+  selector:
+    service: shipping
