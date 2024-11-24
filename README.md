@@ -1,2 +1,2 @@
 # ecommerce-app-rabbitmq
-Implementation of Asynchronous Communication in E-Commerce Apps: A Dicoding final project assignment
+Asynchronous Communication Implementation in an E-Commerce Application Using Node.js, RabbitMQ, Docker Image, and Kubernetes
